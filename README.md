@@ -43,8 +43,8 @@ let myFetch = createActionThunk('MY_FETCH', () => api.fetch());
 
 This will generate two of three possible actions:
 
-- MY_FETCH_START
-- MY_FETCH_FAIL
+- MY_FETCH_STARTED
+- MY_FETCH_FAILED
 - MY_FETCH_ENDED
 
 You can pass both sync and async functions and the actions will be
