@@ -58,6 +58,10 @@ npm install --save redux-thunk-actions
 
 ## Usage
 
+```js
+import { createActionThunk } from '../src';
+```
+
 ### non-async
 
 With non async functions, it will dispatch start/fail/end actions
