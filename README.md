@@ -60,7 +60,7 @@ npm install --save redux-thunk-actions
 ## Usage
 
 ```js
-import { createActionThunk } from '../src';
+import { createActionThunk } from 'redux-thunk-actions';
 ```
 
 ### non-async
