@@ -10,11 +10,11 @@ export function createActionThunk (type, fn) {
     [TYPE_FAIL]    : createAction(TYPE_FAIL)
   };
 
-  return (...args) => (dispatch) => {
+  return (...args) => (dispatch, getState, extra) => {
     dispatch(actionCreators[TYPE_START](args));
     let result;
     try {
-      result = fn(...args);
+      result = fn(...args, {getState, extra});
     } catch (error) {
       dispatch(actionCreators[TYPE_FAIL](error));
       throw error;
