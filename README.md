@@ -44,11 +44,12 @@ let myFetch = createActionThunk('MY_FETCH', () => api.fetch());
 This will generate two of three possible actions:
 
 - MY_FETCH_STARTED
+- MY_FETCH_SUCCEEDED
 - MY_FETCH_FAILED
 - MY_FETCH_ENDED
 
 You can pass both sync and async functions and the actions will be
-generated accordingly.
+dispatched accordingly.
 
 ## Installation
 
@@ -69,7 +70,7 @@ anyway.
 
 ***reducer.js***
 ```js
-case 'FETCH_ENDED':
+case 'FETCH_SUCCEEDED':
   return Object.assign({}, state, {
     data: action.payload
   });

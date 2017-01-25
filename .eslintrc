@@ -1,0 +1,11 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "eslint:recommended"
+    ],
+    "rules": {
+        // overrides
+        "indent"                     : [ 2, 2, { "SwitchCase": 1 } ],
+        "quotes"                     : [ 2, "single" ]
+    }
+}
