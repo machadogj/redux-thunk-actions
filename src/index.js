@@ -19,7 +19,7 @@ export function createActionThunk (type, fn) {
     [TYPE_ENDED]     : createAction(TYPE_ENDED)
   };
 
-  return (...args) => (dispatch, getState, extra) => {
+  const factory = (...args) => (dispatch, getState, extra) => {
     let result;
     let startedAt = (new Date()).getTime();
     dispatch(actionCreators[TYPE_START](args));
@@ -46,6 +46,13 @@ export function createActionThunk (type, fn) {
     }
     return succeeded(result);
   }
+
+  factory.START = actionCreators[TYPE_START].toString();
+  factory.SUCCEEDED = actionCreators[TYPE_SUCCEEDED].toString();
+  factory.FAILED = actionCreators[TYPE_FAILED].toString();
+  factory.ENDED = actionCreators[TYPE_ENDED].toString();
+
+  return factory;
 }
 
 //helpers
