@@ -36,7 +36,7 @@ export function createActionThunk (type, fn) {
       throw err;
     }
     try {
-      result = fn(...args, {getState, extra});
+      result = fn(...args, {getState, dispatch, extra});
     } catch (error) {
       failed(error);
     }
