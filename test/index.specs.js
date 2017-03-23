@@ -65,7 +65,7 @@ describe('createActionThunk', () => {
     }, done);
   });
 
-  it('should throw on error', function () {
+  it('should dispatch FAILED, then ERROR and then throw on error', function () {
     let fetch = createActionThunk('FETCH', () => {
       throw new Error('boom!');
     });
@@ -74,6 +74,7 @@ describe('createActionThunk', () => {
     }
     catch(e) {
       assert.equal(e.message, 'boom!');
+      assert.equal(this.store.getState().started, false);
       assert.equal(this.store.getState().error, true);
     }
   });

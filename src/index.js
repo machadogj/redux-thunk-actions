@@ -32,7 +32,11 @@ export function createActionThunk (type, fn) {
       return data;
     };
     const failed = (err) => {
+      let endedAt = (new Date()).getTime();
       dispatch(actionCreators[TYPE_FAILED](err));
+      dispatch(actionCreators[TYPE_ENDED]({
+        elapsed: endedAt - startedAt
+      }));
       throw err;
     }
     try {
