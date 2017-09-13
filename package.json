@@ -9,7 +9,7 @@
     "test": "mocha --compilers js:babel-register test/*.js --require babel-polyfill",
     "prepublish": "npm run test && npm run build"
   },
-    "files": [
+  "files": [
     "lib",
     "src"
   ],
