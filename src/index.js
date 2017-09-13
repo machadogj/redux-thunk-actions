@@ -14,9 +14,9 @@ export function createActionThunk (type, fn) {
   const TYPE_ENDED     = `${type}_ENDED`;
   const actionCreators = {
     [TYPE_START]     : createAction(TYPE_START),
-    [TYPE_SUCCEEDED] : createAction(TYPE_SUCCEEDED),
-    [TYPE_FAILED]    : createAction(TYPE_FAILED),
-    [TYPE_ENDED]     : createAction(TYPE_ENDED)
+    [TYPE_SUCCEEDED] : createAction(TYPE_SUCCEEDED, data => data, (data, args) => args),
+    [TYPE_FAILED]    : createAction(TYPE_FAILED, err => err, (err, args) => args),
+    [TYPE_ENDED]     : createAction(TYPE_ENDED, stat => stat, (stat, args) => args)
   };
 
   const factory = (...args) => (dispatch, getState, extra) => {
@@ -24,7 +24,7 @@ export function createActionThunk (type, fn) {
     let startedAt = (new Date()).getTime();
     dispatch(actionCreators[TYPE_START](args));
     const succeeded = (data) => {
-      dispatch(actionCreators[TYPE_SUCCEEDED](data));
+      dispatch(actionCreators[TYPE_SUCCEEDED](data, args));
       let endedAt = (new Date()).getTime();
       dispatch(actionCreators[TYPE_ENDED]({
         elapsed: endedAt - startedAt
@@ -33,12 +33,12 @@ export function createActionThunk (type, fn) {
     };
     const failed = (err) => {
       let endedAt = (new Date()).getTime();
-      dispatch(actionCreators[TYPE_FAILED](err));
+      dispatch(actionCreators[TYPE_FAILED](err, args));
       dispatch(actionCreators[TYPE_ENDED]({
         elapsed: endedAt - startedAt
-      }));
+      }, args));
       throw err;
-    }
+    };
     try {
       result = fn(...args, {getState, dispatch, extra});
     } catch (error) {
@@ -49,7 +49,7 @@ export function createActionThunk (type, fn) {
       return result.then(succeeded, failed);
     }
     return succeeded(result);
-  }
+  };
 
   factory.NAME = type;
   factory.START = actionCreators[TYPE_START].toString();
