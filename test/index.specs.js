@@ -3,6 +3,7 @@
 import assert from 'assert';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import configureMockStore from 'redux-mock-store';
 import { createActionThunk } from '../src';
 
 const reducer = (state = { started: false, data: null, error: null }, action) => {
@@ -77,6 +78,28 @@ describe('createActionThunk', () => {
       assert.equal(this.store.getState().started, false);
       assert.equal(this.store.getState().error, true);
     }
+  });
+
+  describe('with meta', function () {
+    const middlewares = [thunkMiddleware] // add your middlewares like `redux-thunk`
+    const mockStore = configureMockStore(middlewares);
+
+    beforeEach(() => {
+      this.store = mockStore({});
+    });
+
+    it('should dispatch action with meta', () => {
+      let fetch = createActionThunk('FETCH', () => ({payload: 2, meta: 3}));
+      this.store.dispatch(fetch(1));
+
+      const actions = this.store.getActions();
+      assert.equal(actions.length, 3);
+
+      const [start, success, ended] = actions;
+      assert.deepEqual(start, {type: fetch.START, payload: [1]});
+      assert.deepEqual(success, {type: fetch.SUCCEEDED, payload: 2, meta: 3});
+      assert.equal(ended.type, fetch.ENDED);
+    });
   });
 });
 

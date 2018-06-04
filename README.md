@@ -130,3 +130,18 @@ then if the action throws it fails:
       assert.equal(getState().error, true);
     }
 ```
+
+### Metadata
+
+Sometimes you want to send metada with your actions
+
+To do so just return an object with `payload` and `meta`. This properties will be used to generate those values:
+
+```js
+let fetch = createActionThunk('FETCH', () => ({payload: 3, meta: 4}));
+dispatch(fetch());
+// will dispatch: 
+// {type: FETCH_START});
+// {type: FETCH_SUCCEEDED, payload: 3, meta: 4});
+// {type: FETCH_ENDED, payload: elapsed: 1});
+```
