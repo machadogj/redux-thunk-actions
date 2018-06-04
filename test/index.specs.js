@@ -96,7 +96,7 @@ describe('createActionThunk', () => {
       assert.equal(actions.length, 3);
 
       const [start, success, ended] = actions;
-      assert.deepEqual(start, {type: fetch.START, payload: 1});
+      assert.deepEqual(start, {type: fetch.START, payload: [1]});
       assert.deepEqual(success, {type: fetch.SUCCEEDED, payload: 2, meta: 3});
       assert.equal(ended.type, fetch.ENDED);
     });

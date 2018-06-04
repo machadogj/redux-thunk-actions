@@ -24,7 +24,7 @@ export function createActionThunk (type, fn) {
   const factory = (...args) => (dispatch, getState, extra) => {
     let result;
     let startedAt = (new Date()).getTime();
-    dispatch(actionCreators[TYPE_START](...args));
+    dispatch(actionCreators[TYPE_START](args));
     const succeeded = (data) => {
       const action = data.payload
         ? successActionWithMeta(data)
