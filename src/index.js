@@ -18,13 +18,19 @@ export function createActionThunk (type, fn) {
     [TYPE_FAILED]    : createAction(TYPE_FAILED),
     [TYPE_ENDED]     : createAction(TYPE_ENDED)
   };
+  const successActionWithMeta =
+    createAction(TYPE_SUCCEEDED, ({payload}) => payload, ({meta}) => meta);
 
   const factory = (...args) => (dispatch, getState, extra) => {
     let result;
     let startedAt = (new Date()).getTime();
-    dispatch(actionCreators[TYPE_START](args));
+    dispatch(actionCreators[TYPE_START](...args));
     const succeeded = (data) => {
-      dispatch(actionCreators[TYPE_SUCCEEDED](data));
+      const action = data.payload
+        ? successActionWithMeta(data)
+        : actionCreators[TYPE_SUCCEEDED](data);
+
+      dispatch(action);
       let endedAt = (new Date()).getTime();
       dispatch(actionCreators[TYPE_ENDED]({
         elapsed: endedAt - startedAt
