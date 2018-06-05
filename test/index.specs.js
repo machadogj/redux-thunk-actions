@@ -79,6 +79,23 @@ describe('createActionThunk', () => {
       assert.equal(this.store.getState().error, true);
     }
   });
+  
+  it('should work with empty payload', function () {
+    const middlewares = [thunkMiddleware] // add your middlewares like `redux-thunk`
+    const mockStore = configureMockStore(middlewares);
+    const store = mockStore({});
+    
+    let fetch = createActionThunk('FETCH', () => {});
+    store.dispatch(fetch());
+
+    const actions = store.getActions();
+    assert.equal(actions.length, 3);
+
+    const [start, success, ended] = actions;
+    assert.deepEqual(start, {type: fetch.START, payload: []});
+    assert.deepEqual(success, {type: fetch.SUCCEEDED});
+    assert.equal(ended.type, fetch.ENDED);
+  });
 
   describe('with meta', function () {
     const middlewares = [thunkMiddleware] // add your middlewares like `redux-thunk`
