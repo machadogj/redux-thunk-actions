@@ -3,9 +3,10 @@ import { createAction } from 'redux-actions';
 /**
  * Creates an async action creator
  *
- * @param  {String} TYPE    the type of the action
- * @param  {Function} fn    the function to be called async
- * @return {Funtion}        the action creator
+ * @param  {String} TYPE                 the type of the action
+ * @param  {Function} fn                 the function to be called async
+ * @param  {Boolean} suppressException   optionally do not throw exceptions
+ * @return {Funtion}                     the action creator
  */
 export function createActionThunk (type, fn, suppressException) {
   const TYPE_START     = `${type}_STARTED`;
