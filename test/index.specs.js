@@ -43,7 +43,6 @@ describe('createActionThunk', () => {
   it('should dispatch non async functions', function () {
     let fetch = createActionThunk('FETCH', () => 3);
     this.store.dispatch(fetch());
-    // assert.equal(this.store.getState().started, false);
     assert.equal(this.store.getState().data, 3);
   });
 
@@ -92,6 +91,8 @@ describe('createActionThunk', () => {
     assert.equal(actions.length, 3);
 
     const [start, success, ended] = actions;
+    assert.deepEqual(start, {type: fetch.STARTED, payload: []});
+    // we keep the old START for backward compatibility
     assert.deepEqual(start, {type: fetch.START, payload: []});
     assert.deepEqual(success, {type: fetch.SUCCEEDED});
     assert.equal(ended.type, fetch.ENDED);
@@ -113,6 +114,8 @@ describe('createActionThunk', () => {
       assert.equal(actions.length, 3);
 
       const [start, success, ended] = actions;
+      assert.deepEqual(start, {type: fetch.STARTED, payload: [1]});
+      // we keep the old START for backward compatibility
       assert.deepEqual(start, {type: fetch.START, payload: [1]});
       assert.deepEqual(success, {type: fetch.SUCCEEDED, payload: 2, meta: 3});
       assert.equal(ended.type, fetch.ENDED);

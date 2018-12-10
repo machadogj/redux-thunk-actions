@@ -9,12 +9,12 @@ import { createAction } from 'redux-actions';
  * @return {Funtion}                     the action creator
  */
 export function createActionThunk (type, fn, suppressException) {
-  const TYPE_START     = `${type}_STARTED`;
+  const TYPE_STARTED     = `${type}_STARTED`;
   const TYPE_SUCCEEDED = `${type}_SUCCEEDED`;
   const TYPE_FAILED    = `${type}_FAILED`;
   const TYPE_ENDED     = `${type}_ENDED`;
   const actionCreators = {
-    [TYPE_START]     : createAction(TYPE_START),
+    [TYPE_STARTED]     : createAction(TYPE_STARTED),
     [TYPE_SUCCEEDED] : createAction(TYPE_SUCCEEDED),
     [TYPE_FAILED]    : createAction(TYPE_FAILED),
     [TYPE_ENDED]     : createAction(TYPE_ENDED)
@@ -25,7 +25,7 @@ export function createActionThunk (type, fn, suppressException) {
   const factory = (...args) => (dispatch, getState, extra) => {
     let result;
     let startedAt = (new Date()).getTime();
-    dispatch(actionCreators[TYPE_START](args));
+    dispatch(actionCreators[TYPE_STARTED](args));
     const succeeded = (data) => {
       const action = data && data.payload
         ? successActionWithMeta(data)
@@ -61,7 +61,8 @@ export function createActionThunk (type, fn, suppressException) {
   }
 
   factory.NAME = type;
-  factory.START = actionCreators[TYPE_START].toString();
+  factory.START = actionCreators[TYPE_STARTED].toString();
+  factory.STARTED = factory.START;
   factory.SUCCEEDED = actionCreators[TYPE_SUCCEEDED].toString();
   factory.FAILED = actionCreators[TYPE_FAILED].toString();
   factory.ENDED = actionCreators[TYPE_ENDED].toString();
