@@ -66,7 +66,9 @@ export function createActionThunk (type, fn, suppressException) {
   factory.SUCCEEDED = actionCreators[TYPE_SUCCEEDED].toString();
   factory.FAILED = actionCreators[TYPE_FAILED].toString();
   factory.ENDED = actionCreators[TYPE_ENDED].toString();
-
+  factory[Symbol.iterator] = function *FactoryIterator(){
+    yield *Object.values(factory);
+  }
   return factory;
 }
 
