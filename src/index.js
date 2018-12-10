@@ -3,11 +3,12 @@ import { createAction } from 'redux-actions';
 /**
  * Creates an async action creator
  *
- * @param  {String} TYPE    the type of the action
- * @param  {Function} fn    the function to be called async
- * @return {Funtion}        the action creator
+ * @param  {String} TYPE                 the type of the action
+ * @param  {Function} fn                 the function to be called async
+ * @param  {Boolean} suppressException   optionally do not throw exceptions
+ * @return {Funtion}                     the action creator
  */
-export function createActionThunk (type, fn) {
+export function createActionThunk (type, fn, suppressException) {
   const TYPE_START     = `${type}_STARTED`;
   const TYPE_SUCCEEDED = `${type}_SUCCEEDED`;
   const TYPE_FAILED    = `${type}_FAILED`;
@@ -43,7 +44,9 @@ export function createActionThunk (type, fn) {
       dispatch(actionCreators[TYPE_ENDED]({
         elapsed: endedAt - startedAt
       }));
-      throw err;
+      if(!suppressException) {
+        throw err;
+      }
     }
     try {
       result = fn(...args, {getState, dispatch, extra});

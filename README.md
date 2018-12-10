@@ -131,6 +131,12 @@ then if the action throws it fails:
     }
 ```
 
+if you want to suppress throwing exceptions and instead handle errors 100% in the reducers, pass `true` as the 3rd argument
+
+```js
+const action = createActionThunk('FETCH', () => 3, true)
+```
+
 ### Metadata
 
 Sometimes you want to send metada with your actions
