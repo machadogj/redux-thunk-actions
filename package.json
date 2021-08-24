@@ -9,6 +9,10 @@
     "test": "mocha --compilers js:babel-register test/*.js --require babel-polyfill",
     "prepublish": "npm run test && npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/machadogj/redux-thunk-actions.git"
+  },
   "files": [
     "lib",
     "src"
